@@ -1,35 +1,58 @@
 package com.example.hostadmin.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
+@Table(name = "reservas")
 @Data
 public class Reserva {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank (message = "la fecha de check-in es obligatorio")
-    @Column(nullable = false, length = 100)
+    @NotNull(message = "La fecha de check-in es obligatoria")
+    @Column(nullable = false)
     private LocalDate fechaInicio;
 
-
+    @NotNull(message = "La fecha de término es obligatoria")
+    @Column(nullable = false)
     private LocalDate fechaTermino;
 
-    
-    private Double precio;
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Column(nullable = false)
+    private BigDecimal precio;
 
-    @ManyToOne
-    @JoinColumn(name = "huesped_run")
+    @NotBlank(message = "El estado es obligatorio")
+    @Size(min = 3, max = 10, message = "El estado debe tener entre 3 y 10 caracteres")
+    @Column(nullable = false, length = 10)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "huesped_run", nullable = false)
     private Huesped huesped;
 
-    @ManyToOne
-    @JoinColumn(name = "habitacion_numero")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "habitacion_id", nullable = false)
     private Habitacion habitacion;
 
-    @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL)
-    private Pago pago;
+    @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL)
+    private List<Pago> pagos;
 }
