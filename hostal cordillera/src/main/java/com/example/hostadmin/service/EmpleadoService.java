@@ -36,18 +36,18 @@ public class EmpleadoService {
 
     public EmpleadoDTO buscarPorRut(String rut) {
         Empleado empleado = empleadoRepository.findById(rut)
-        .orElseThrow(() -> new RuntimeException("empleado " + rut + "no encontrado"));
+        .orElseThrow(() -> new RuntimeException("empleado " + rut + " no encontrado"));
         return convertirADTO(empleado);
     }
 
     public Empleado guardar(Long hostalId, Long tipoId, Empleado empleado) {
         if (empleadoRepository.existsById(empleado.getRut())) {
-            throw new RuntimeException("ya existe el empleaod" + empleado.getRut());
+            throw new RuntimeException("ya existe el empleaod " + empleado.getRut());
         }
         Hostal hostal = hostalRepository.findById(hostalId)
-        .orElseThrow(() -> new RuntimeException("el hostal " + hostalId + "no existe"));
+        .orElseThrow(() -> new RuntimeException("el hostal " + hostalId + " no existe"));
         TipoEmpleado tipo = tipoEmpleadoRepository.findById(tipoId)
-        .orElseThrow(() -> new RuntimeException("id tipo" + tipoId + "no existe"));
+        .orElseThrow(() -> new RuntimeException("id tipo " + tipoId + " no existe"));
         empleado.setHostal(hostal);
         empleado.setTipoEmpleado(tipo);
         return empleadoRepository.save(empleado);
@@ -55,7 +55,7 @@ public class EmpleadoService {
 
     public Empleado actualizar(String rut, Empleado empleado) {
         Empleado existente = empleadoRepository.findById(rut)
-        .orElseThrow(() -> new RuntimeException("empleado" + rut + "no encontrado"));
+        .orElseThrow(() -> new RuntimeException("empleado " + rut + " no encontrado"));
         if (empleado.getNombre() != null) {
             existente.setNombre(empleado.getNombre());
         }
@@ -71,9 +71,9 @@ public class EmpleadoService {
     public String eliminar(String rut) {
         try {
             Empleado empleado = empleadoRepository.findById(rut)
-            .orElseThrow(() -> new RuntimeException("empleado" + rut + "no encontrado"));
+            .orElseThrow(() -> new RuntimeException("empleado " + rut + " no encontrado"));
             empleadoRepository.delete(empleado);
-            return "empleado" + empleado.getNombre() + "eliminado ";
+            return "empleado " + empleado.getNombre() + " eliminado ";
         } catch (RuntimeException e) {
             return e.getMessage();
         }
@@ -88,7 +88,7 @@ public class EmpleadoService {
         if (empleado.getTipoEmpleado() != null) {
             dto.setTipoEmpleado(empleado.getTipoEmpleado().getCategoria());
         } else {
-            dto.setTipoEmpleado("tipo no asignado");
+            dto.setTipoEmpleado(" tipo no asignado ");
         }
         return dto;
     }

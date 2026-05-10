@@ -31,20 +31,20 @@ public class ComunaService {
 
     public ComunaDTO buscarPorId(Long id) {
         Comuna comuna = comunaRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("comuna" + id + "no encontrada"));
+        .orElseThrow(() -> new RuntimeException("comuna " + id + " no encontrada"));
         return convertirADTO(comuna);
     }
 
     public Comuna guardar(Long regionId, Comuna comuna) {
         Region region = regionRepository.findById(regionId)
-        .orElseThrow(() -> new RuntimeException("la region " + regionId + "no existe"));
+        .orElseThrow(() -> new RuntimeException("la region " + regionId + " no existe"));
         comuna.setRegion(region);
         return comunaRepository.save(comuna);
     }
 
     public Comuna actualizar(Long id, Comuna comuna) {
         Comuna existente = comunaRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("comuna" + id + "no encontrada"));
+        .orElseThrow(() -> new RuntimeException("comuna " + id + " no encontrada"));
         if (comuna.getNombre() != null) {
             existente.setNombre(comuna.getNombre());
         }
@@ -54,9 +54,9 @@ public class ComunaService {
     public String eliminar(Long id) {
         try {
             Comuna comuna = comunaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("comuna" + id + "no encontrada"));
+            .orElseThrow(() -> new RuntimeException("comuna " + id + " no encontrada"));
             comunaRepository.delete(comuna);
-            return "comuna" + comuna.getNombre() +"eliminada";
+            return "comuna" + comuna.getNombre() +" eliminada";
         } catch (RuntimeException e) {
             return e.getMessage();
         }

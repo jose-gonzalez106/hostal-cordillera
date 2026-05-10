@@ -22,7 +22,6 @@ public class Pago {
     @Column(nullable = false)
     private LocalDate fechaPago;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private String metodoPago;
 

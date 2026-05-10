@@ -37,6 +37,11 @@ public class Hostal {
     @Column(nullable = false, length = 100)
     private String nombre;
 
+    @NotBlank(message = "La ciudad es obligatoria")
+    @Size(min = 3, max = 100, message = "La ciudad debe tener entre 3 y 100 caracteres")
+    @Column(nullable = false, length = 100)
+    private String ciudad;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comuna_id", nullable = false)
     private Comuna comuna;

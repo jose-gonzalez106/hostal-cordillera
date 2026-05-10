@@ -31,17 +31,17 @@ public class PagoService {
 
     public PagoDTO buscarPorId(Long id) {
         Pago pago = pagoRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("pago" + id + "no encontrado"));
+        .orElseThrow(() -> new RuntimeException("pago " + id + " no encontrado"));
         return convertirADTO(pago);
     }
 
     public Pago registrar(Long reservaId, Pago pago) {
         Reserva reserva = reservaRepository.findById(reservaId)
-        .orElseThrow(() -> new RuntimeException("la reserva" + reservaId + "no existe"));
+        .orElseThrow(() -> new RuntimeException("la reserva " + reservaId + " no existe"));
         boolean yaTienePago = pagoRepository.findAll().stream()
         .anyMatch(p -> p.getReserva() != null && p.getReserva().getId().equals(reservaId));
         if (yaTienePago) {
-            throw new RuntimeException("la reserva" + reservaId + "ya tiene un pago");
+            throw new RuntimeException("la reserva " + reservaId + " ya tiene un pago");
         }
         pago.setMontoTotal(reserva.getPrecio());
         pago.setReserva(reserva);
@@ -51,9 +51,9 @@ public class PagoService {
     public String eliminar(Long id) {
         try {
             Pago pago = pagoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("pago" + id + "no encontrado"));
+            .orElseThrow(() -> new RuntimeException("pago " + id + " no encontrado"));
             pagoRepository.delete(pago);
-            return "pago" + id + "eliminado";
+            return "pago " + id + " eliminado";
         } catch (RuntimeException e) {
             return e.getMessage();
         }
