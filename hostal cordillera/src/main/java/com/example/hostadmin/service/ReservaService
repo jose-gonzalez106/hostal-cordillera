@@ -71,7 +71,7 @@ public class ReservaService {
         }
 
         long noches = ChronoUnit.DAYS.between(reserva.getFechaInicio(), reserva.getFechaTermino());
-        reserva.setPrecio((double) noches * 30000);
+        reserva.setPrecio((BigDecimal.valueOf) noches * 30000);
 
         reserva.setHuesped(huesped);
         reserva.setHabitacion(habitacion);

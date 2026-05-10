@@ -44,6 +44,7 @@ public class Reserva {
     @NotBlank(message = "El estado es obligatorio")
     @Size(min = 3, max = 10, message = "El estado debe tener entre 3 y 10 caracteres")
     @Column(nullable = false, length = 10)
+    private String estado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "huesped_run", nullable = false)

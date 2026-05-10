@@ -26,7 +26,7 @@ public class TipoEmpleado {
     @NotBlank(message = "El cargo es obligatorio")
     @Size(min = 3, max = 50, message = "El cargo debe tener entre 3 y 50 caracteres")
     @Column(nullable = false, unique = true, length = 50)
-    private String cargo;
+    private String categoria;
 
     @JsonIgnore
     @OneToMany(mappedBy = "tipoEmpleado")

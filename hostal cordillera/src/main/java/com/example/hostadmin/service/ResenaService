@@ -31,7 +31,7 @@ public class ResenaService {
 
     public ResenniaDTO buscarPorId(Long id) {
         Resena resena = resenaRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("resena" + id + "no encontrada"));
+        .orElseThrow(() -> new RuntimeException("resena " + id + " no encontrada"));
         return convertirADTO(resena);
     }
 
@@ -44,8 +44,8 @@ public class ResenaService {
 
     public Resena guardar(String huespedRun, Resena resena) {
         Huesped huesped = huespedRepository.findById(huespedRun)
-        .orElseThrow(() -> new RuntimeException("el huesped " + huespedRun + "no existe"));
-        if (resena.getComentario() == null resena.getComentario().isBlank()) {
+        .orElseThrow(() -> new RuntimeException("el huesped " + huespedRun + " no existe"));
+        if (resena.getComentario() == null || resena.getComentario().isBlank()) {
             throw new RuntimeException("el comentario no puede estar vacio");
         }
         resena.setHuesped(huesped);
@@ -55,9 +55,9 @@ public class ResenaService {
     public String eliminar(Long id) {
         try {
             Resena resena = resenaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("resena" + id + "no encontrada"));
+            .orElseThrow(() -> new RuntimeException("resena " + id + " no encontrada"));
             resenaRepository.delete(resena);
-            return "resena:" + id + "eliminada";
+            return "resena: " + id + " eliminada";
         } catch (RuntimeException e) {
             return e.getMessage();
         }
@@ -67,6 +67,14 @@ public class ResenaService {
         ResenniaDTO dto = new ResenniaDTO();
         dto.setId(resena.getId());
         dto.setComentario(resena.getComentario());
+        dto.setCalificacion(resena.getCalificacion());
+        dto.setFecha(resena.getFecha());
+        if (resena.getHuesped() != null) {
+            dto.setHuesped(resena.getHuesped().getNombre());
+        }
+        if (resena.getHostal() != null) {
+            dto.setHostal(resena.getHostal().getNombre());
+        }
         return dto;
     }
 

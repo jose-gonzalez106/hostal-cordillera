@@ -27,6 +27,10 @@ public class Empleado {
     @Column(nullable = false, length = 100)
     private String nombre;
 
+    @NotBlank(message = "La ocupación es obligatoria")
+    @Size(min = 3, max = 100, message = "La ocupación debe tener entre 3 y 100 caracteres")
+    private String ocupacion;
+
     @NotBlank(message = "El turno es obligatorio")
     @Size(min = 3, max = 10, message = "El turno debe tener entre 3 y 10 caracteres")
     @Column(nullable = false, length = 10)
