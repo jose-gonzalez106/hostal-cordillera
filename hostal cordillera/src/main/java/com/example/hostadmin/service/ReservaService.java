@@ -58,7 +58,7 @@ public class ReservaService {
                                 .orElseThrow(() -> new RuntimeException("huesped "
                                                 + huespedRun
                                                 + " no existe"));
-                Habitacion habitacion = habitacionRepository.findById(habitacionNumero)
+                Habitacion habitacion = habitacionRepository.findByNumero(habitacionNumero)
                                 .orElseThrow(() -> new RuntimeException("la habitacion "
                                                 + habitacionNumero
                                                 + " no existe"));
