@@ -29,7 +29,7 @@ public class HabitacionService {
         .toList();
     }
 
-    public HabitacionDTO buscarPorNumero(Integer numero) {
+    public HabitacionDTO buscarPorNumero(Long numero) {
         Habitacion habitacion = habitacionRepository.findById(numero)
         .orElseThrow(() -> new RuntimeException("la habitacion " + numero + " no existe"));
         return convertirADTO(habitacion);
