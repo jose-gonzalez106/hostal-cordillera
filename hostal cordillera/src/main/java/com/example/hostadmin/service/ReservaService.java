@@ -92,7 +92,6 @@ public class ReservaService {
         }
 
         public String cancelar(Long id) {
-                try {
                         Reserva reserva = reservaRepository.findById(id)
                                         .orElseThrow(() -> new RuntimeException(
                                                         "reserva " + id + " no encontrada"));
@@ -103,21 +102,14 @@ public class ReservaService {
                         return "reserva "
                                         + id
                                         + " cancelada, la habitacion ahora esta disponible";
-                } catch (RuntimeException e) {
-                        return e.getMessage();
-                }
         }
 
         public String eliminar(Long id) {
-                try {
                         Reserva reserva = reservaRepository.findById(id)
                                         .orElseThrow(() -> new RuntimeException(
                                                         "reserva " + id + " no encontrada"));
                         reservaRepository.delete(reserva);
                         return "reserva " + id + " eliminada";
-                } catch (RuntimeException e) {
-                        return e.getMessage();
-                }
         }
 
         private ReservaDTO convertirADTO(Reserva reserva) {
