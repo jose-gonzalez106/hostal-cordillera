@@ -9,11 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/comunas")
 public class ComunaController {
 
-    @Autowired
-    private ComunaServices ComunaServices;
-
-    @GetMapping
-    public List<>
+    
 
 
 

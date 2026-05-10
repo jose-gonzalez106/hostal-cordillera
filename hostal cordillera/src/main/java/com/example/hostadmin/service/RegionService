@@ -44,14 +44,10 @@ public class RegionService {
     }
 
     public String eliminar(Long id) {
-        try {
             Region region = regionRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("region" + id + "no encontrada"));
             regionRepository.delete(region);
-            return "la region" + region.getNombre() + "eliminada";
-        } catch (RuntimeException e) {
-            return e.getMessage();
-        }
+            return "la region " + region.getNombre() + " eliminada";
     }
 
     private RegionDTO convertirADTO(Region region) {
