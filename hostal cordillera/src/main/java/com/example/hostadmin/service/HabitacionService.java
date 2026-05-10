@@ -71,14 +71,10 @@ public class HabitacionService {
     }
 
     public String eliminar(Integer numero) {
-        try {
             Habitacion habitacion = habitacionRepository.findByNumero(numero)
             .orElseThrow(() -> new RuntimeException("la habitacion " + numero + " no existe"));
             habitacionRepository.delete(habitacion);
             return "habitacion " + numero + " eliminada";
-        } catch (RuntimeException e) {
-            return e.getMessage();
-        }
     }
 
     private void validarEstado(String estado) {
