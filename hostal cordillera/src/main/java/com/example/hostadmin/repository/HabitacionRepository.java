@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.hostadmin.model.Habitacion;
 //usan número de habitación como id, por eso es Integer
-public interface HabitacionRepository extends JpaRepository<Habitacion, Integer> {
+public interface HabitacionRepository extends JpaRepository<Habitacion, Long> {
+  Optional<Habitacion> findByNumero(Integer numero);
+  boolean existsByNumero(Integer numero);
 
 }
