@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class HuespedDTO {
 
-    private String rut;
+    private String run;
     private String nombre;
     private String apellido;
     private String telefono;

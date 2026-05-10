@@ -22,7 +22,6 @@ public class Pago {
     @Column(nullable = false)
     private LocalDate fechaPago;
 
-)
     @Column(nullable = false)
     private String metodoPago;
 

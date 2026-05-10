@@ -56,7 +56,7 @@ public class ComunaService {
             Comuna comuna = comunaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("comuna " + id + " no encontrada"));
             comunaRepository.delete(comuna);
-            return "comuna" + comuna.getNombre() +"eliminada";
+            return "comuna" + comuna.getNombre() +" eliminada";
         } catch (RuntimeException e) {
             return e.getMessage();
         }

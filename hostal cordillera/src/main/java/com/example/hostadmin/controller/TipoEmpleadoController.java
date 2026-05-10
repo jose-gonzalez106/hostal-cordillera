@@ -2,6 +2,8 @@ package com.example.hostadmin.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,44 +11,41 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import com.example.hostadmin.DTO.PagoDTO;
-import com.example.hostadmin.model.Pago;
-import com.example.hostadmin.service.PagoService;
+import com.example.hostadmin.DTO.TipoEmpleadoDTO;
+import com.example.hostadmin.model.TipoEmpleado;
+import com.example.hostadmin.service.TipoEmpleadoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/pagos")
-public class PagoController {
+@RequestMapping("/api/v1/tipos-empleado")
+public class TipoEmpleadoController {
 
     @Autowired
-    private PagoService pagoService;
+    private TipoEmpleadoService tipoEmpleadoService;
 
     @GetMapping
     public ResponseEntity<?> obtenerTodos() {
-        List<PagoDTO> pagos = pagoService.obtenerTodos();
-        if (!pagos.isEmpty()) {
-            return new ResponseEntity<>(pagos, HttpStatus.OK);
+        List<TipoEmpleadoDTO> tipos = tipoEmpleadoService.obtenerTodos();
+        if (!tipos.isEmpty()) {
+            return new ResponseEntity<>(tipos, HttpStatus.OK);
         }
-        return new ResponseEntity<>("No hay pagos", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("No hay tipos de empleado", HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
         try {
-            PagoDTO pago = pagoService.buscarPorId(id);
-            return new ResponseEntity<>(pago, HttpStatus.OK);
+            TipoEmpleadoDTO tipo = tipoEmpleadoService.buscarPorId(id);
+            return new ResponseEntity<>(tipo, HttpStatus.OK);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>("No se encontró el pago", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No se encontró el tipo de empleado", HttpStatus.NOT_FOUND);
         }
     }
 
-    @PostMapping("/reserva/{reservaId}")
-    public ResponseEntity<?> registrar(@PathVariable Long reservaId,
-                                        @Valid @RequestBody Pago pago) {
+    @PostMapping
+    public ResponseEntity<?> crear(@Valid @RequestBody TipoEmpleado tipo) {
         try {
-            return new ResponseEntity<>(pagoService.registrar(reservaId, pago), HttpStatus.CREATED);
+            return new ResponseEntity<>(tipoEmpleadoService.guardar(tipo), HttpStatus.CREATED);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -55,7 +54,7 @@ public class PagoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(pagoService.eliminar(id), HttpStatus.OK);
+            return new ResponseEntity<>(tipoEmpleadoService.eliminar(id), HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

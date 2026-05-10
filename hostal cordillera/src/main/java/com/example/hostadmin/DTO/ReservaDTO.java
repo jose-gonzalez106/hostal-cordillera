@@ -1,5 +1,6 @@
 package com.example.hostadmin.DTO;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import lombok.Data;
@@ -10,6 +11,6 @@ public class ReservaDTO {
     private long id;
     private LocalDate fechaIngreso;
     private LocalDate fechaSalida;
-    private double precio;
+    private BigDecimal precio;
 
 }
