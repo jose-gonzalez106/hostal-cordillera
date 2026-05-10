@@ -30,13 +30,13 @@ public class HabitacionService {
     }
 
     public HabitacionDTO buscarPorNumero(Integer numero) {
-        Habitacion habitacion = habitacionRepository.findById(numero)
+        Habitacion habitacion = habitacionRepository.findByNumero(numero)
         .orElseThrow(() -> new RuntimeException("la habitacion " + numero + " no existe"));
         return convertirADTO(habitacion);
     }
 
     public Habitacion guardar(Long hostalId, Habitacion habitacion) {
-        if (habitacionRepository.existsById(habitacion.getNumero())) {
+        if (habitacionRepository.existsByNumero(habitacion.getNumero())) {
             throw new RuntimeException("ya existe una habitacion con el numero " + habitacion.getNumero());
         }
         validarEstado(habitacion.getEstado());
@@ -47,7 +47,7 @@ public class HabitacionService {
     }
 
     public Habitacion actualizar(Integer numero, Habitacion habitacion) {
-        Habitacion existente = habitacionRepository.findById(numero)
+        Habitacion existente = habitacionRepository.findByNumero(numero)
         .orElseThrow(() -> new RuntimeException("la habitacion " + numero + " no existe"));
         if (habitacion.getCategoria() != null) {
             existente.setCategoria(habitacion.getCategoria());
@@ -64,7 +64,7 @@ public class HabitacionService {
 
     public Habitacion cambiarEstado(Integer numero, String nuevoEstado) {
         validarEstado(nuevoEstado);
-        Habitacion habitacion = habitacionRepository.findById(numero)
+        Habitacion habitacion = habitacionRepository.findByNumero(numero)
         .orElseThrow(() -> new RuntimeException("la habitacion " + numero + " no existe"));
         habitacion.setEstado(nuevoEstado);
         return habitacionRepository.save(habitacion);
@@ -72,7 +72,7 @@ public class HabitacionService {
 
     public String eliminar(Integer numero) {
         try {
-            Habitacion habitacion = habitacionRepository.findById(numero)
+            Habitacion habitacion = habitacionRepository.findByNumero(numero)
             .orElseThrow(() -> new RuntimeException("la habitacion " + numero + " no existe"));
             habitacionRepository.delete(habitacion);
             return "habitacion " + numero + " eliminada";
