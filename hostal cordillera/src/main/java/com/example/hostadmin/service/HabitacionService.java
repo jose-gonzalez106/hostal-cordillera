@@ -29,7 +29,7 @@ public class HabitacionService {
         .toList();
     }
 
-    public HabitacionDTO buscarPorNumero(Integer numero) {
+    public HabitacionDTO buscarPorNumero(Long numero) {
         Habitacion habitacion = habitacionRepository.findById(numero)
         .orElseThrow(() -> new RuntimeException("la habitacion " + numero + " no existe"));
         return convertirADTO(habitacion);
@@ -46,7 +46,7 @@ public class HabitacionService {
         return habitacionRepository.save(habitacion);
     }
 
-    public Habitacion actualizar(Integer numero, Habitacion habitacion) {
+    public Habitacion actualizar(Long numero, Habitacion habitacion) {
         Habitacion existente = habitacionRepository.findById(numero)
         .orElseThrow(() -> new RuntimeException("la habitacion " + numero + " no existe"));
         if (habitacion.getCategoria() != null) {
@@ -62,7 +62,7 @@ public class HabitacionService {
         return habitacionRepository.save(existente);
     }
 
-    public Habitacion cambiarEstado(Integer numero, String nuevoEstado) {
+    public Habitacion cambiarEstado(Long numero, String nuevoEstado) {
         validarEstado(nuevoEstado);
         Habitacion habitacion = habitacionRepository.findById(numero)
         .orElseThrow(() -> new RuntimeException("la habitacion " + numero + " no existe"));
@@ -70,7 +70,7 @@ public class HabitacionService {
         return habitacionRepository.save(habitacion);
     }
 
-    public String eliminar(Integer numero) {
+    public String eliminar(Long numero) {
         try {
             Habitacion habitacion = habitacionRepository.findById(numero)
             .orElseThrow(() -> new RuntimeException("la habitacion " + numero + " no existe"));
