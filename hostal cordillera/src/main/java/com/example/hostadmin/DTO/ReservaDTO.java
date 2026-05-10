@@ -12,5 +12,8 @@ public class ReservaDTO {
     private LocalDate fechaIngreso;
     private LocalDate fechaSalida;
     private BigDecimal precio;
+    private String estado;
+    private String huesped;
+    private String habitacion;
 
 }
