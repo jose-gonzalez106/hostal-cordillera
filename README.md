@@ -2,6 +2,7 @@
 
 ## Integrantes
 - José González
+- Javier Calquin
 
 ## Descripción
 API REST para la gestión de un hostal, construida con Spring Boot 3, JPA/Hibernate y MySQL.
