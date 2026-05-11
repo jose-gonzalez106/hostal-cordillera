@@ -36,40 +36,24 @@ public class ComunaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
-        try {
-            ComunaDTO comuna = comunaService.buscarPorId(id);
-            return new ResponseEntity<>(comuna, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("No se encontró la comuna", HttpStatus.NOT_FOUND);
-        }
+        ComunaDTO comuna = comunaService.buscarPorId(id);
+        return new ResponseEntity<>(comuna, HttpStatus.OK);
     }
 
     @PostMapping("/region/{regionId}")
     public ResponseEntity<?> crear(@PathVariable Long regionId,
                                     @Valid @RequestBody Comuna comuna) {
-        try {
-            return new ResponseEntity<>(comunaService.guardar(regionId, comuna), HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(comunaService.guardar(regionId, comuna), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizar(@PathVariable Long id,
                                          @Valid @RequestBody Comuna comuna) {
-        try {
-            return new ResponseEntity<>(comunaService.actualizar(id, comuna), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(comunaService.actualizar(id, comuna), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(comunaService.eliminar(id), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(comunaService.eliminar(id), HttpStatus.OK);
     }
 }
