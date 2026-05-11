@@ -35,12 +35,8 @@ public class ReservaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
-        try {
-            ReservaDTO reserva = reservaService.buscarPorId(id);
-            return new ResponseEntity<>(reserva, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("No se encontró la reserva", HttpStatus.NOT_FOUND);
-        }
+        ReservaDTO reserva = reservaService.buscarPorId(id);
+        return new ResponseEntity<>(reserva, HttpStatus.OK);
     }
 
     @GetMapping("/huesped/{run}")
@@ -56,28 +52,16 @@ public class ReservaController {
     public ResponseEntity<?> crear(@PathVariable String run,
                                     @PathVariable Integer numero,
                                     @Valid @RequestBody Reserva reserva) {
-        try {
-            return new ResponseEntity<>(reservaService.crear(run, numero, reserva), HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(reservaService.crear(run, numero, reserva), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}/cancelar")
     public ResponseEntity<?> cancelar(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(reservaService.cancelar(id), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(reservaService.cancelar(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(reservaService.eliminar(id), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(reservaService.eliminar(id), HttpStatus.OK);
     }
 }
