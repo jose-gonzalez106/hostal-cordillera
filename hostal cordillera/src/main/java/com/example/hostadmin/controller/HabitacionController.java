@@ -68,6 +68,7 @@ public class HabitacionController {
     @PatchMapping("/{numero}/estado")
     public ResponseEntity<?> cambiarEstado(@PathVariable Integer numero,
                                            @Valid @RequestBody HabitacionDTO dto) {
+                                        @Valid @RequestBody HabitacionDTO dto) {
         try {
             return new ResponseEntity<>(habitacionService.cambiarEstado(numero, dto.getEstado()), HttpStatus.OK);
         } catch (RuntimeException e) {
