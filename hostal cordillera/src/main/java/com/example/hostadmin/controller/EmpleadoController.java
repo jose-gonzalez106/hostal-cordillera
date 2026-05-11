@@ -36,41 +36,25 @@ public class EmpleadoController {
 
     @GetMapping("/{rut}")
     public ResponseEntity<?> obtenerPorRut(@PathVariable String rut) {
-        try {
-            EmpleadoDTO empleado = empleadoService.buscarPorRut(rut);
-            return new ResponseEntity<>(empleado, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("No se encontró el empleado", HttpStatus.NOT_FOUND);
-        }
+        EmpleadoDTO empleado = empleadoService.buscarPorRut(rut);
+        return new ResponseEntity<>(empleado, HttpStatus.OK);
     }
 
     @PostMapping("/hostal/{hostalId}/tipo/{tipoId}")
     public ResponseEntity<?> crear(@PathVariable Long hostalId,
                                     @PathVariable Long tipoId,
                                     @Valid @RequestBody Empleado empleado) {
-        try {
-            return new ResponseEntity<>(empleadoService.guardar(hostalId, tipoId, empleado), HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(empleadoService.guardar(hostalId, tipoId, empleado), HttpStatus.CREATED);
     }
 
     @PutMapping("/{rut}")
     public ResponseEntity<?> actualizar(@PathVariable String rut,
                                         @Valid @RequestBody Empleado empleado) {
-        try {
-            return new ResponseEntity<>(empleadoService.actualizar(rut, empleado), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(empleadoService.actualizar(rut, empleado), HttpStatus.OK);
     }
 
     @DeleteMapping("/{rut}")
     public ResponseEntity<?> eliminar(@PathVariable String rut) {
-        try {
-            return new ResponseEntity<>(empleadoService.eliminar(rut), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(empleadoService.eliminar(rut), HttpStatus.OK);
     }
 }

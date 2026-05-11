@@ -34,12 +34,8 @@ public class ResenaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
-        try {
-            ResenniaDTO resena = resenaService.buscarPorId(id);
-            return new ResponseEntity<>(resena, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("No se encontró la reseña", HttpStatus.NOT_FOUND);
-        }
+        ResenniaDTO resena = resenaService.buscarPorId(id);
+        return new ResponseEntity<>(resena, HttpStatus.OK);
     }
 
     @GetMapping("/huesped/{run}")
@@ -54,19 +50,11 @@ public class ResenaController {
     @PostMapping("/huesped/{run}")
     public ResponseEntity<?> crear(@PathVariable String run,
             @Valid @RequestBody Resena resena) {
-        try {
-            return new ResponseEntity<>(resenaService.guardar(run, resena),HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(resenaService.guardar(run, resena), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(resenaService.eliminar(id), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(resenaService.eliminar(id), HttpStatus.OK);
     }
 }

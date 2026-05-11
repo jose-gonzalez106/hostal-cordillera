@@ -34,29 +34,17 @@ public class TipoEmpleadoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
-        try {
-            TipoEmpleadoDTO tipo = tipoEmpleadoService.buscarPorId(id);
-            return new ResponseEntity<>(tipo, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("No se encontró el tipo de empleado", HttpStatus.NOT_FOUND);
-        }
+        TipoEmpleadoDTO tipo = tipoEmpleadoService.buscarPorId(id);
+        return new ResponseEntity<>(tipo, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> crear(@Valid @RequestBody TipoEmpleado tipo) {
-        try {
-            return new ResponseEntity<>(tipoEmpleadoService.guardar(tipo), HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(tipoEmpleadoService.guardar(tipo), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(tipoEmpleadoService.eliminar(id), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(tipoEmpleadoService.eliminar(id), HttpStatus.OK);
     }
 }
