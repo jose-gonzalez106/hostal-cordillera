@@ -47,11 +47,11 @@ public class ResenaController {
         return new ResponseEntity<>("No hay reseñas para este huesped", HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/huesped/{run}")
+    @PostMapping("/huesped/{run}/hostal/{hostalId}")
     public ResponseEntity<?> crear(@PathVariable String run,
                                     @PathVariable Long hostalId,
                                     @Valid @RequestBody Resena resena) {
-        return new ResponseEntity<>(resenaService.guardar(run, resena), HttpStatus.CREATED);
+        return new ResponseEntity<>(resenaService.guardar(run, hostalId,resena), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
