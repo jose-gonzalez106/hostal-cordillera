@@ -35,39 +35,23 @@ public class RegionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
-        try {
-            RegionDTO region = regionService.buscarPorId(id);
-            return new ResponseEntity<>(region, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("No se encontró la region", HttpStatus.NOT_FOUND);
-        }
+        RegionDTO region = regionService.buscarPorId(id);
+        return new ResponseEntity<>(region, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> crear(@Valid @RequestBody Region region) {
-        try {
-            return new ResponseEntity<>(regionService.guardar(region), HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(regionService.guardar(region), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizar(@PathVariable Long id,
                                         @Valid @RequestBody Region region) {
-        try {
-            return new ResponseEntity<>(regionService.actualizar(id, region), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(regionService.actualizar(id, region), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(regionService.eliminar(id), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(regionService.eliminar(id), HttpStatus.OK);
     }
 }
