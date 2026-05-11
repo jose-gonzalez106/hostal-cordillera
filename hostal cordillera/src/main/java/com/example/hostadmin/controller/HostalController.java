@@ -36,40 +36,24 @@ public class HostalController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
-        try {
-            HostalDTO hostal = hostalService.buscarPorId(id);
-            return new ResponseEntity<>(hostal, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("No se encontró el hostal", HttpStatus.NOT_FOUND);
-        }
+        HostalDTO hostal = hostalService.buscarPorId(id);
+        return new ResponseEntity<>(hostal, HttpStatus.OK);
     }
 
     @PostMapping("/comuna/{comunaId}")
     public ResponseEntity<?> crear(@PathVariable Long comunaId,
                                     @Valid @RequestBody Hostal hostal) {
-        try {
-            return new ResponseEntity<>(hostalService.guardar(comunaId, hostal), HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(hostalService.guardar(comunaId, hostal), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizar(@PathVariable Long id,
                                          @Valid @RequestBody Hostal hostal) {
-        try {
-            return new ResponseEntity<>(hostalService.actualizar(id, hostal), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(hostalService.actualizar(id, hostal), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(hostalService.eliminar(id), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(hostalService.eliminar(id), HttpStatus.OK);
     }
 }
