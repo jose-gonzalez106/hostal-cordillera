@@ -1,5 +1,7 @@
 package com.example.hostadmin.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,10 +40,12 @@ public class Empleado {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipo_empleado_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "empleados"})
     private TipoEmpleado tipoEmpleado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hostal_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "comuna"})
     private Hostal hostal;
 
 

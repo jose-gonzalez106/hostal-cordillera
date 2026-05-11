@@ -2,6 +2,9 @@ package com.example.hostadmin.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import lombok.Data;
@@ -30,5 +33,6 @@ public class Pago {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reserva_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "huesped", "habitacion", "pagos"})
     private Reserva reserva;
 }

@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.example.hostadmin.DTO.ResenniaDTO;
 import com.example.hostadmin.exceptions.RecursoNoEncontradoException;
 import com.example.hostadmin.exceptions.ValidacionException;
+import com.example.hostadmin.model.Hostal;
 import com.example.hostadmin.model.Huesped;
 import com.example.hostadmin.model.Resena;
+import com.example.hostadmin.repository.HostalRepository;
 import com.example.hostadmin.repository.HuespedRepository;
 import com.example.hostadmin.repository.ResenaRepository;
 
@@ -25,6 +27,9 @@ public class ResenaService {
 
     @Autowired
     private HuespedRepository huespedRepository;
+
+    @Autowired
+    private HostalRepository hostalRepository;
 
     
     public List<ResenniaDTO> obtenerTodas() {
@@ -52,22 +57,22 @@ public class ResenaService {
         .toList();
     }
 
-    public Resena guardar(String huespedRun, Resena resena) {
-        log.info("[ResenaService] Guardando resena del huesped: {}", huespedRun);
+    public Resena guardar(String huespedRun, Long hostalId, Resena resena) {
+        log.info("[ResenaService] Guardando reseña del huesped: {} en hostal {}", huespedRun, hostalId);
         Huesped huesped = huespedRepository.findById(huespedRun)
-        .orElseThrow(() -> {
-            log.warn("[ResenaService] Huesped {} no existe", huespedRun);
-            return new RecursoNoEncontradoException("el huesped " + huespedRun + " no existe");
-        });
+            .orElseThrow(() -> new RecursoNoEncontradoException("el huesped " + huespedRun + " no existe"));
+        Hostal hostal = hostalRepository.findById(hostalId)
+            .orElseThrow(() -> new RecursoNoEncontradoException("el hostal " + hostalId + " no existe"));
         if (resena.getComentario() == null || resena.getComentario().isBlank()) {
-            log.warn("[ResenaService] Comentario vacio para huesped {}", huespedRun);
-            throw new ValidacionException("el comentario no puede estar vacio");
+            throw new ValidacionException("el comentario no puede estar vacío");
         }
         resena.setHuesped(huesped);
+        resena.setHostal(hostal);
+
         Resena guardada = resenaRepository.save(resena);
-        log.info("[ResenaService] Resena guardada con id: {}", guardada.getId());
+        log.info("[ResenaService] Reseña guardada con id: {}", guardada.getId());
         return guardada;
-    }
+}
 
     public String eliminar(Long id) {
         log.info("[ResenaService] Eliminando resena id: {}", id);

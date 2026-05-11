@@ -77,6 +77,12 @@ public class HostalService {
         if (hostal.getCiudad() != null) {
             existente.setCiudad(hostal.getCiudad());
         }
+        if (hostal.getRutEmpresa() != null) {
+        existente.setRutEmpresa(hostal.getRutEmpresa());
+        }
+        if (hostal.getComuna() != null) {
+            existente.setComuna(hostal.getComuna());
+        }
         log.info("[HostalService] Hostal {} actualizado", id);
         return hostalRepository.save(existente);
     }

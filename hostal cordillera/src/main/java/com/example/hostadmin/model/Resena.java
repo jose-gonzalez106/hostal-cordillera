@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "resenas")
 @Data
@@ -32,9 +34,11 @@ public class Resena {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "huesped_run", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "reservas", "resenas", "comuna"})
     private Huesped huesped;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hostal_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "comuna"})
     private Hostal hostal;
 }

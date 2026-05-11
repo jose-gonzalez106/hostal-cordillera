@@ -49,7 +49,8 @@ public class ResenaController {
 
     @PostMapping("/huesped/{run}")
     public ResponseEntity<?> crear(@PathVariable String run,
-            @Valid @RequestBody Resena resena) {
+                                    @PathVariable Long hostalId,
+                                    @Valid @RequestBody Resena resena) {
         return new ResponseEntity<>(resenaService.guardar(run, resena), HttpStatus.CREATED);
     }
 

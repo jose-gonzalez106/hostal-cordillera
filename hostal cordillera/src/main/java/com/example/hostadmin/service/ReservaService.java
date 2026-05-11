@@ -70,7 +70,7 @@ public class ReservaService {
                         log.warn("[ReservaService] Habitacion {} no existe", habitacionNumero);
                         return new RecursoNoEncontradoException("la habitacion " + habitacionNumero + " no existe");
                 });
-        if (!habitacion.getEstado().equalsIgnoreCase("disponible")) {
+        if (!habitacion.getEstado().equalsIgnoreCase("libre")) {
                 log.warn("[ReservaService] Habitacion {} no disponible, estado: {}", habitacionNumero, habitacion.getEstado());
                 throw new ValidacionException("la habitacion " + habitacionNumero +
                         " no esta disponible, el estado actual es: " + habitacion.getEstado());

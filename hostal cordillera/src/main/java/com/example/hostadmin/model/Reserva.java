@@ -11,7 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,6 +18,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "reservas")
@@ -37,7 +38,6 @@ public class Reserva {
     @Column(nullable = false)
     private LocalDate fechaTermino;
 
-    @DecimalMin(value = "0.0", inclusive = false)
     @Column(nullable = false)
     private BigDecimal precio;
 
@@ -48,10 +48,12 @@ public class Reserva {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "huesped_run", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "reservas", "resenas", "comuna"})
     private Huesped huesped;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "habitacion_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "hostal"})
     private Habitacion habitacion;
 
     @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL)

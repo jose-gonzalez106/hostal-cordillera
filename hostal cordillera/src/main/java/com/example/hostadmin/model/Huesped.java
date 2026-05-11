@@ -1,6 +1,8 @@
 package com.example.hostadmin.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -40,6 +42,7 @@ public class Huesped {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comuna_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "region"})
     private Comuna comuna;
 
     @JsonIgnore
