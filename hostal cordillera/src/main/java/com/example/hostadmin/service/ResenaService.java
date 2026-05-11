@@ -6,13 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.hostadmin.DTO.ResenniaDTO;
+import com.example.hostadmin.exceptions.RecursoNoEncontradoException;
+import com.example.hostadmin.exceptions.ValidacionException;
 import com.example.hostadmin.model.Huesped;
 import com.example.hostadmin.model.Resena;
 import com.example.hostadmin.repository.HuespedRepository;
 import com.example.hostadmin.repository.ResenaRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 public class ResenaService {
@@ -24,18 +28,24 @@ public class ResenaService {
 
     
     public List<ResenniaDTO> obtenerTodas() {
+        log.info("[ResenaService] Obteniendo todas las resenas");
         return resenaRepository.findAll().stream()
         .map(this::convertirADTO)
         .toList();
     }
 
     public ResenniaDTO buscarPorId(Long id) {
+        log.info("[ResenaService] Buscando resena con id: {}", id);
         Resena resena = resenaRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("resena " + id + " no encontrada"));
+        .orElseThrow(() -> {
+            log.warn("[ResenaService] Resena {} no encontrada", id);
+            return new RecursoNoEncontradoException("resena " + id + " no encontrada");
+        });
         return convertirADTO(resena);
     }
 
     public List<ResenniaDTO> buscarPorHuesped(String run) {
+        log.info("[ResenaService] Buscando resenas del huesped: {}", run);
         return resenaRepository.findAll().stream()
         .filter(r -> r.getHuesped() != null && r.getHuesped().getRun().equals(run))
         .map(this::convertirADTO)
@@ -43,24 +53,32 @@ public class ResenaService {
     }
 
     public Resena guardar(String huespedRun, Resena resena) {
+        log.info("[ResenaService] Guardando resena del huesped: {}", huespedRun);
         Huesped huesped = huespedRepository.findById(huespedRun)
-        .orElseThrow(() -> new RuntimeException("el huesped " + huespedRun + " no existe"));
+        .orElseThrow(() -> {
+            log.warn("[ResenaService] Huesped {} no existe", huespedRun);
+            return new RecursoNoEncontradoException("el huesped " + huespedRun + " no existe");
+        });
         if (resena.getComentario() == null || resena.getComentario().isBlank()) {
-            throw new RuntimeException("el comentario no puede estar vacio");
+            log.warn("[ResenaService] Comentario vacio para huesped {}", huespedRun);
+            throw new ValidacionException("el comentario no puede estar vacio");
         }
         resena.setHuesped(huesped);
-        return resenaRepository.save(resena);
+        Resena guardada = resenaRepository.save(resena);
+        log.info("[ResenaService] Resena guardada con id: {}", guardada.getId());
+        return guardada;
     }
 
     public String eliminar(Long id) {
-        try {
-            Resena resena = resenaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("resena " + id + " no encontrada"));
-            resenaRepository.delete(resena);
-            return "resena: " + id + " eliminada";
-        } catch (RuntimeException e) {
-            return e.getMessage();
-        }
+        log.info("[ResenaService] Eliminando resena id: {}", id);
+        Resena resena = resenaRepository.findById(id)
+        .orElseThrow(() -> {
+            log.warn("[ResenaService] Resena {} no encontrada para eliminar", id);
+            return new RecursoNoEncontradoException("resena " + id + " no encontrada");
+        });
+        resenaRepository.delete(resena);
+        log.info("[ResenaService] Resena {} eliminada", id);
+        return "resena: " + id + " eliminada";
     }
 
     private ResenniaDTO convertirADTO(Resena resena) {
