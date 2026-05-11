@@ -121,6 +121,7 @@ public class HabitacionService {
 
     private HabitacionDTO convertirADTO(Habitacion habitacion) {
         HabitacionDTO dto = new HabitacionDTO();
+        dto.setId(habitacion.getId());
         dto.setNumero(habitacion.getNumero());
         dto.setCategoria(habitacion.getCategoria());
         dto.setCapacidad(habitacion.getCapacidad());
