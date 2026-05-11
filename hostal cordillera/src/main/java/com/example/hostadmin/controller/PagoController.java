@@ -34,30 +34,18 @@ public class PagoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
-        try {
-            PagoDTO pago = pagoService.buscarPorId(id);
-            return new ResponseEntity<>(pago, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("No se encontró el pago", HttpStatus.NOT_FOUND);
-        }
+        PagoDTO pago = pagoService.buscarPorId(id);
+        return new ResponseEntity<>(pago, HttpStatus.OK);
     }
 
     @PostMapping("/reserva/{reservaId}")
     public ResponseEntity<?> registrar(@PathVariable Long reservaId,
                                         @Valid @RequestBody Pago pago) {
-        try {
-            return new ResponseEntity<>(pagoService.registrar(reservaId, pago), HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(pagoService.registrar(reservaId, pago), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(pagoService.eliminar(id), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(pagoService.eliminar(id), HttpStatus.OK);
     }
 }
