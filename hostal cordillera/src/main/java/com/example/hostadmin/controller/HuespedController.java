@@ -36,40 +36,24 @@ public class HuespedController {
 
     @GetMapping("/{run}")
     public ResponseEntity<?> obtenerPorRun(@PathVariable String run) {
-        try {
-            HuespedDTO huesped = huespedService.buscarPorRun(run);
-            return new ResponseEntity<>(huesped, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("No se encontró el huesped", HttpStatus.NOT_FOUND);
-        }
+        HuespedDTO huesped = huespedService.buscarPorRun(run);
+        return new ResponseEntity<>(huesped, HttpStatus.OK);
     }
 
     @PostMapping("/comuna/{comunaId}")
     public ResponseEntity<?> crear(@PathVariable Long comunaId,
                                     @Valid @RequestBody Huesped huesped) {
-        try {
-            return new ResponseEntity<>(huespedService.guardar(comunaId, huesped), HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(huespedService.guardar(comunaId, huesped), HttpStatus.CREATED);
     }
 
     @PutMapping("/{run}")
     public ResponseEntity<?> actualizar(@PathVariable String run,
                                         @Valid @RequestBody Huesped huesped) {
-        try {
-            return new ResponseEntity<>(huespedService.actualizar(run, huesped), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(huespedService.actualizar(run, huesped), HttpStatus.OK);
     }
 
     @DeleteMapping("/{run}")
     public ResponseEntity<?> eliminar(@PathVariable String run) {
-        try {
-            return new ResponseEntity<>(huespedService.eliminar(run), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(huespedService.eliminar(run), HttpStatus.OK);
     }
 }
