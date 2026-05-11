@@ -46,17 +46,14 @@ public class HostalService {
 
     public Hostal guardar(Long comunaId, Hostal hostal) {
         log.info("[HostalService] Registrando hostal con rut: {}", hostal.getRutEmpresa());
-        boolean rutDuplicado = hostalRepository.findAll().stream()
-        .anyMatch(h -> h.getRutEmpresa()
-        .equals(hostal.getRutEmpresa()));
-        if (rutDuplicado) {
+        if (hostalRepository.existsByRutEmpresa(hostal.getRutEmpresa())) {
             log.warn("[HostalService] Ya existe hostal con rut: {}", hostal.getRutEmpresa());
             throw new ValidacionException("ya existe un hostal con el rut: " + hostal.getRutEmpresa());
         }
         Comuna comuna = comunaRepository.findById(comunaId)
         .orElseThrow(() -> {
             log.warn("[HostalService] Comuna {} no existe", comunaId);
-            return new RecursoNoEncontradoException("la comuna" + comunaId + "no existe");
+            return new RecursoNoEncontradoException("la comuna " + comunaId + " no existe");
         });
         hostal.setComuna(comuna);
         Hostal guardado = hostalRepository.save(hostal);

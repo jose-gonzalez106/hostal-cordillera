@@ -48,18 +48,16 @@ public class HuespedService {
         log.info("[HuespedService] Registrando huesped con run: {}", huesped.getRun());
         if (huespedRepository.existsById(huesped.getRun())) {
             log.warn("[HuespedService] Ya existe huesped con run: {}", huesped.getRun());
-            throw new ValidacionException("ya existe un huesped con el run:" + huesped.getRun());
+            throw new ValidacionException("ya existe un huesped con el run: " + huesped.getRun());
         }
-        boolean correoDuplicado = huespedRepository.findAll().stream()
-        .anyMatch(h -> h.getCorreo().equals(huesped.getCorreo()));
-        if (correoDuplicado) {
+        if (huespedRepository.existsByCorreo(huesped.getCorreo())) {
             log.warn("[HuespedService] Correo duplicado: {}", huesped.getCorreo());
-            throw new ValidacionException("ya esta registrado el correo:" + huesped.getCorreo());
+            throw new ValidacionException("ya esta registrado el correo: " + huesped.getCorreo());
         }
         Comuna comuna = comunaRepository.findById(comunaId)
         .orElseThrow(() -> {
             log.warn("[HuespedService] Comuna {} no existe", comunaId);
-            return new RecursoNoEncontradoException("la comuna " + comunaId + "no existe");
+            return new RecursoNoEncontradoException("la comuna " + comunaId + " no existe");
         });
         huesped.setComuna(comuna);
         Huesped guardado = huespedRepository.save(huesped);

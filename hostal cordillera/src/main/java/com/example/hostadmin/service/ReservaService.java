@@ -53,8 +53,7 @@ public class ReservaService {
 
         public List<ReservaDTO> buscarPorHuesped(String run) {
         log.info("[ReservaService] Buscando reservas del huesped: {}", run);
-        return reservaRepository.findAll().stream()
-                .filter(r -> r.getHuesped() != null && r.getHuesped().getRun().equals(run))
+        return reservaRepository.findByHuespedRun(run).stream()
                 .map(this::convertirADTO)
                 .toList();
         }
@@ -130,6 +129,13 @@ public class ReservaService {
                 dto.setFechaIngreso(reserva.getFechaInicio());
                 dto.setFechaSalida(reserva.getFechaTermino());
                 dto.setPrecio(reserva.getPrecio() != null ? reserva.getPrecio() : BigDecimal.ZERO);
+                dto.setEstado(reserva.getEstado());
+                if (reserva.getHuesped() != null) {
+                        dto.setHuesped(reserva.getHuesped().getNombre() + " " + reserva.getHuesped().getApellido());
+                }
+                if (reserva.getHabitacion() != null) {
+                        dto.setHabitacion("Habitacion " + reserva.getHabitacion().getNumero());
+                }
                 return dto;
         }
 }

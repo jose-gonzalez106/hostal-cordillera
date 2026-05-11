@@ -51,9 +51,7 @@ public class PagoService {
             log.warn("[PagoService] Reserva {} no existe", reservaId);
             return new RecursoNoEncontradoException("la reserva " + reservaId + " no existe");
         });
-        boolean yaTienePago = pagoRepository.findAll().stream()
-        .anyMatch(p -> p.getReserva() != null && p.getReserva().getId().equals(reservaId));
-        if (yaTienePago) {
+        if (pagoRepository.existsByReservaId(reservaId)) {
             log.warn("[PagoService] La reserva {} ya tiene un pago registrado", reservaId);
             throw new ValidacionException("la reserva " + reservaId + " ya tiene un pago");
         }
@@ -80,6 +78,12 @@ public class PagoService {
         PagoDTO dto = new PagoDTO();
         dto.setId(pago.getId());
         dto.setMontoTotal(pago.getMontoTotal());
+        dto.setFechaPago(pago.getFechaPago());
+        dto.setMetodoPago(pago.getMetodoPago());
+        dto.setEstadoPago(pago.getEstadoPago());
+        if (pago.getReserva() != null) {
+            dto.setReservaId(pago.getReserva().getId());
+        }
         return dto;
     }
 

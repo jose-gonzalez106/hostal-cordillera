@@ -41,15 +41,10 @@ public class TipoEmpleadoService {
 
     public TipoEmpleado guardar(TipoEmpleado tipo) {
         log.info("[TipoEmpleadoService] Guardando tipo empleado: {}", tipo.getCategoria());
-        boolean duplicado = tipoEmpleadoRepository.findAll().stream()
-                .anyMatch(t -> t.getCategoria()
-                        .equalsIgnoreCase(tipo.getCategoria()));
-
-        if (duplicado) {
+        if (tipoEmpleadoRepository.existsByCategoria(tipo.getCategoria())) {
             log.warn("[TipoEmpleadoService] Ya existe tipo empleado: {}", tipo.getCategoria());
             throw new ValidacionException("ya existe el tipo: " + tipo.getCategoria());
         }
-
         TipoEmpleado guardado = tipoEmpleadoRepository.save(tipo);
         log.info("[TipoEmpleadoService] Tipo empleado guardado con id: {}", guardado.getId());
         return guardado;
